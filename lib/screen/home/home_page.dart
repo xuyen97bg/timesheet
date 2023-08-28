@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timesheet/screen/home/fragment/tracking_fragment.dart';
+import 'package:timesheet/screen/home/fragment/user_fragment.dart';
 import 'package:timesheet/utils/color_resources.dart';
 
 import '../../controller/auth_controller.dart';
+import '../../helper/route_helper.dart';
 import '../../utils/images.dart';
 import '../../utils/styles.dart';
 
@@ -22,8 +24,7 @@ class _HomePage extends State<HomePage> {
     });
   }
   static final List<Widget> _widgetOptions = <Widget>[
-    const TrackingFragment(),
-    const Text('Index 1: Business', style: font15W600)
+    const TrackingFragment()
   ];
   AuthController controller = Get.find<AuthController>();
   @override
@@ -73,24 +74,6 @@ class _HomePage extends State<HomePage> {
                    _onItemTapped(0);
                    Navigator.pop(context);
                  },
-               ),
-               const SizedBox(height: 10),
-               ListTile(
-                 selected: _selectedIndex == 1,
-                 textColor:   const Color(0xFF535763),
-                 iconColor: const Color(0xFF535763),
-                 leadingAndTrailingTextStyle: const TextStyle(color: Color(0xFF535763)),
-                 selectedColor: ColorResources.whiteColor,
-                 selectedTileColor: ColorResources.COLOR_PRIMARY,
-                 visualDensity: const VisualDensity(vertical: -2),
-                 title: const Text('User', style: font15W600),
-                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                 leading: const Icon(Icons.person) ,
-                 onTap: () {
-                   // Update the state of the app.
-                   _onItemTapped(1);
-                   Navigator.pop(context);
-                 },
                )
              ],
            )),
@@ -109,8 +92,8 @@ class _HomePage extends State<HomePage> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   leading: const Icon(Icons.logout_sharp) ,
                   onTap: () {
-                    // Update the state of the app.
-                    Navigator.pop(context);
+                    Get.find<AuthController>().repo.clearUserToken();
+                    Get.offNamed(RouteHelper.signIn);
                   },
                 ),
               ),
@@ -120,22 +103,7 @@ class _HomePage extends State<HomePage> {
       ),
       body:  Center(
         child: _widgetOptions[_selectedIndex],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: 'Checking',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'User',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: ColorResources.COLOR_PRIMARY,
-        onTap: _onItemTapped,
-      ),
+      )
     );
   }
 }

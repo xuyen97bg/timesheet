@@ -9,12 +9,12 @@ class HomeRepo {
   final ApiClient apiClient;
 
   HomeRepo({required this.apiClient});
-  Future<Response> getTracks(int pageIndex, DateTime dateTime) async {
+  Future<Response> getTracks(int pageIndex, DateTime dateTime, int pageSize) async {
     Map<String, dynamic> mapQuerys = Map();
     mapQuerys['startDate'] = DateConverter.firstDayOfMonth(dateTime);
     mapQuerys['endDate'] = DateConverter.lastDayOfMonth(dateTime);
     mapQuerys['pageIndex'] = '$pageIndex';
-    mapQuerys['pageSize'] = '10';
+    mapQuerys['pageSize'] = '$pageSize';
     return await apiClient.getData(AppConstants.GET_CONTENTS,queryParameters: mapQuerys);
   }
   

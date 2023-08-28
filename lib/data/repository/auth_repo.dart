@@ -116,4 +116,8 @@ class AuthRepo {
     await sharedPreferences.remove(AppConstants.USER_COUNTRY_CODE);
     return await sharedPreferences.remove(AppConstants.USER_NUMBER);
   }
+
+  void clearUserToken() async {
+    sharedPreferences.remove(AppConstants.TOKEN);
+  }
 }

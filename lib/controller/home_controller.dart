@@ -31,7 +31,8 @@ class HomeController extends GetxController
   late int year = DateTime.now().year;
   late int pageIndex = 1;
   late bool isEdit;
-
+  late int totalPages = 4;
+  late int pageSize = 10;
   @override
   void onInit() {
     super.onInit();
@@ -61,7 +62,7 @@ class HomeController extends GetxController
   }
 
   void onNextIndex() {
-    if (pageIndex != 4) {
+    if (pageIndex != totalPages) {
       pageIndex++;
     } else {
       pageIndex = 1;
@@ -73,24 +74,33 @@ class HomeController extends GetxController
     if (pageIndex != 1) {
       pageIndex--;
     } else {
-      pageIndex = 4;
+      pageIndex = totalPages;
     }
+    getTrackings();
+  }
+
+  void handleChoosePageSize(int pageSize){
+    this.pageSize = pageSize;
+    pageIndex = 1;
     getTrackings();
   }
 
   Future getTrackings() async {
     _loading = true;
+    update();
     Response response =
-        await repo.getTracks(pageIndex, DateTime(year, month, 1));
+        await repo.getTracks(pageIndex, DateTime(year, month, 1),pageSize);
     _loading = false;
     if (response.isOk) {
       trackingResponse = TrackingsResponse.fromJson(response.body);
+      totalPages = trackingResponse.data?.totalPages??0;
     }
     update();
   }
 
   Future getProjects() async {
     _loading = true;
+    update();
     Response response = await repo.getProjects();
     _loading = false;
     if (response.isOk) {
@@ -101,6 +111,7 @@ class HomeController extends GetxController
 
   Future<bool> saveTracking() async {
     _loading = true;
+    update();
     if (tracking.dayOff == true) {
       tracking.tasks = [];
     } else {

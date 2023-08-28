@@ -6,7 +6,7 @@ class AppConstants {
   static const String APP_NAME = 'Base ';
   static const String APP_VERSION = "1.0.0";
 
-  static const String BASE_URL = 'http://timesheet-dev.oceantech.com.vn';
+  static const String BASE_URL = 'http://timesheet.oceantech.com.vn';
   static const String GET_CONTENTS = '/timesheet/api/v1/reports/staff/page';
   static const String LOGIN_URI = '/timesheet/oauth/token';
   static const String GET_PROJECTS = '/timesheet/api/v1/projects/page';

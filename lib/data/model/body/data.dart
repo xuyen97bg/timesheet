@@ -1,24 +1,35 @@
 import 'tracking.dart';
 
 class Data {
-  List<Tracking>? content;
-
-  Data({this.content});
+  List<Tracking>? tracks;
+  int? totalPages;
+  int? totalElements;
+  int? size;
+  int? number;
+  Data({this.tracks,this.totalElements,this.totalPages,this.number,this.size});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['content'] != null) {
-      content = <Tracking>[];
+      tracks = <Tracking>[];
       json['content'].forEach((v) {
-        content!.add(Tracking.fromJson(v));
+        tracks!.add(Tracking.fromJson(v));
       });
     }
+    totalPages = json['totalPages'];
+    totalElements = json['totalElements'];
+    size = json['size'];
+    number = json['number'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (content != null) {
-      data['content'] = content!.map((v) => v.toJson()).toList();
+    if (tracks != null) {
+      data['content'] = tracks!.map((v) => v.toJson()).toList();
     }
+    data['totalPages'] = totalPages;
+    data['totalElements'] = totalElements;
+    data['size'] = size;
+    data['number'] = number;
     return data;
   }
 }

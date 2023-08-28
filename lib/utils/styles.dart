@@ -45,6 +45,36 @@ const font14BlackW600 = TextStyle(
     fontFamily: 'Inter',
   color:Colors.black
 );
+const font14PrimaryW600 = TextStyle(
+    fontSize: 14,
+    height: 1.5,
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Inter',
+    color:ColorResources.COLOR_PRIMARY
+);
+const font14WhiteW600 = TextStyle(
+    fontSize: 14,
+    height: 1.5,
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Inter',
+    color:Colors.white,
+);
+const font12BlackW400 = TextStyle(
+    fontSize: 12,
+    height: 1.5,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'Inter',
+    color:Colors.black
+);
+
+const font14BlackW400 = TextStyle(
+    fontSize: 14,
+    height: 1.5,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'Inter',
+    color:Colors.black
+);
+
 const font16PrimaryW600 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w600,
@@ -74,7 +104,13 @@ const font16SecondaryW600 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w600,
     fontFamily: 'Inter',
-    color: ColorResources.COLOR_GRAY);
+    color: Colors.black45);
+
+const font14SecondaryW600 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Inter',
+    color: Colors.black45);
 
 Expanded layoutEditTextNumber(
     {required String label, required TextEditingController controller}) =>

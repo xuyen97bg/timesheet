@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 import 'package:timesheet/data/model/body/user.dart';
 import 'package:timesheet/data/model/response/token_resposive.dart';
 import 'package:timesheet/data/repository/auth_repo.dart';
+import 'package:timesheet/view/progress_dialog.dart';
+
+import '../view/progress_dialog.dart';
 
 
 class AuthController extends GetxController implements GetxService {
@@ -20,10 +23,11 @@ class AuthController extends GetxController implements GetxService {
 
   Future<int> login(String username, String password) async {
     _loading = true;
+    update();
     Response response =
         await repo.login(username: username, password: password);
     _loading = false;
-
+    update();
     if (response.statusCode == 200) {
       print('response1 ${response.body.toString()}');
       TokenResponsive tokeBody = TokenResponsive.fromJson(response.body);
@@ -31,15 +35,21 @@ class AuthController extends GetxController implements GetxService {
       print('accessToken: ${tokeBody.accessToken!}');
       repo.saveUserToken(tokeBody.accessToken!);
     }
-    _loading = false;
     return response.statusCode!;
   }
 
   Future<bool> checkToken() async {
-    _loading = true;
-    Response response = await repo.checkToken();
-    _loading = false;
-    return response.isOk;
+    if(repo.isLoggedIn()){
+      _loading = true;
+      update();
+      Response response = await repo.checkToken();
+      _loading = false;
+      update();
+      return response.isOk;
+    }else{
+      return Future(() => false);
+    }
+
   }
 }
 

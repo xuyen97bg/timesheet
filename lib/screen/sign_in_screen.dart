@@ -6,6 +6,7 @@ import 'package:timesheet/utils/images.dart';
 
 import '../helper/route_helper.dart';
 import '../view/password_field.dart';
+import '../view/progress_dialog.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: 300,
                 child: Image.asset(Images.logo , height: 150,width: 150),
               ),
@@ -52,54 +53,50 @@ class _SignInScreenState extends State<SignInScreen> {
                         controller: _passwordController,
                       ),
                     ),
+                    const SizedBox(height: 50),
+                    ElevatedButton(
+                      onPressed: () {
+                        _login();
+                      },
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        backgroundColor: ColorResources.COLOR_PRIMARY,
+                      ),
+                      child: Container(
+                        width: 120,
+                        padding: const EdgeInsets.all(14),
+                        alignment: Alignment.center,
+                        child: const Text("Login",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white),
+                      ),
+                    ),
+                    ),
                     Container(
-                      margin: const EdgeInsets.only(top: 50),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _login();
-                        },
-                        style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          backgroundColor: ColorResources.COLOR_PRIMARY,
-                        ),
-                        child: Container(
-                          width: 120,
-                          padding: const EdgeInsets.all(14),
-                          alignment: Alignment.center,
-                          child: const Text("Login",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white),
+                      padding: const EdgeInsets.all(20),
+                      child: const Text("OR",style: TextStyle(color: Colors.black, fontSize: 16)),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Get.offNamed(RouteHelper.signUp);
+                      },
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        backgroundColor: ColorResources.COLOR_WHITE,
+                      ),
+                      child: Container(
+                        width: 120,
+                        padding: const EdgeInsets.all(14),
+                        alignment: Alignment.center,
+                        child: const Text("Registration",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: ColorResources.COLOR_GREY),
                         ),
                       ),
-                    )
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      child: Text("OR",style: TextStyle(color: Colors.black, fontSize: 16)),
-                    ),
-                    Container(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Get.offNamed(RouteHelper.signUp);
-                          },
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            backgroundColor: ColorResources.COLOR_WHITE,
-                          ),
-                          child: Container(
-                            width: 120,
-                            padding: const EdgeInsets.all(14),
-                            alignment: Alignment.center,
-                            child: const Text("Registration",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: ColorResources.COLOR_GREY),
-                            ),
-                          ),
-                        )
                     ),
                   ],
                 ),
@@ -127,6 +124,7 @@ class _SignInScreenState extends State<SignInScreen> {
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
+      ProgressDialog.showLoaderDialog(context);
       Get.find<AuthController>().login(username, password).then((value) => {
             if (value == 200){
               Get.offNamed(RouteHelper.getHomeRoute())

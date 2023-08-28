@@ -19,7 +19,7 @@ class ApiClient extends GetxService {
   final int timeoutInSeconds = 90;
 
   String token = "";
-  Map<String, String> _mainHeaders = {};
+  final Map<String, String> _mainHeaders = {};
 
   ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
     token = sharedPreferences.getString(AppConstants.TOKEN) ??
@@ -181,7 +181,7 @@ class ApiClient extends GetxService {
   Response handleResponse(Http.Response response, String uri) {
     dynamic _body;
     try {
-      _body = jsonDecode(response.body);
+      _body = jsonDecode(utf8.decode(response.bodyBytes));
     } catch (e) {}
     Response _response = Response(
       body: _body ?? response.body,
